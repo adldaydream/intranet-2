@@ -44,3 +44,25 @@ function loadLayout() {
 }
 
 window.addEventListener("load", loadLayout);
+
+// Overlay logic
+document.querySelectorAll(".open-overlay").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    const target = link.dataset.target;
+    const overlay = document.getElementById(`overlay-${target}`);
+    if (overlay) overlay.style.display = "flex";
+  });
+});
+
+document.querySelectorAll(".close-overlay").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.closest(".overlay").style.display = "none";
+  });
+});
+
+window.addEventListener("click", e => {
+  if (e.target.classList.contains("overlay")) {
+    e.target.style.display = "none";
+  }
+});

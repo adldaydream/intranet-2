@@ -25,16 +25,41 @@
       <p>Adelaide: 23°C, Sunny</p>
     </div>
     <div class="widget" data-id="quicklinks">
-      <h2>🔗 Quick Links</h2>
+      <h2>Quick Links</h2>
       <ul>
-        <li><a href="#">WiFi Info</a></li>
-        <li><a href="#">Venue Map</a></li>
-        <li><a href="#">Code of Conduct</a></li>
+        <li><a href="#" class="open-overlay" data-target="wifi">WiFi Info</a></li>
+        <li><a href="#" class="open-overlay" data-target="map">Venue Map</a></li>
+        <li><a href="#" class="open-overlay" data-target="conduct">Code of Conduct</a></li>
       </ul>
     </div>
     <div class="widget" data-id="notes">
-      <h2>📝 Notes</h2>
+      <h2>Notes</h2>
       <textarea placeholder="Write your notes here..."></textarea>
+    </div>
+  </div>
+
+  <!-- Overlays -->
+  <div id="overlay-wifi" class="overlay">
+    <div class="overlay-content">
+      <span class="close-overlay">&times;</span>
+      <h3>WiFi Info</h3>
+      <p>Network: DaydreamHack<br>Password: hacktheday2025</p>
+    </div>
+  </div>
+
+  <div id="overlay-map" class="overlay">
+    <div class="overlay-content">
+      <span class="close-overlay">&times;</span>
+      <h3>Venue Map</h3>
+      <p>Find the full map near the registration desk or <a href="#">download it here</a>.</p>
+    </div>
+  </div>
+
+  <div id="overlay-conduct" class="overlay">
+    <div class="overlay-content">
+      <span class="close-overlay">&times;</span>
+      <h3>Code of Conduct</h3>
+      <p>Be kind. Be respectful. Harassment of any kind is not tolerated. See staff for support.</p>
     </div>
   </div>
 
