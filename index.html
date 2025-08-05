@@ -2,39 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daydream Adelaide Intranet</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <h1>Daydream Adelaide Intranet</h1>
   <div id="dashboard">
-    <div class="widget" data-id="announcements">
-      <h2>Announcements</h2>
-      <p>Welcome to Daydream Adelaide! Stay tuned for updates.</p>
+    <div class="widget" data-id="announcements" draggable="true">
+      <h2>📢 Announcements</h2>
+      <p>Welcome to Daydream Adelaide! Stay tuned for updates and exciting news throughout the event.</p>
     </div>
-    <div class="widget" data-id="schedule">
-      <h2>Schedule</h2>
+    <div class="widget" data-id="schedule" draggable="true">
+      <h2>🗓️ Schedule</h2>
       <ul>
         <li>10:00 AM - Opening Ceremony</li>
         <li>11:00 AM - Workshops</li>
         <li>4:00 PM - Demos</li>
+        <li>6:00 PM - Networking & Dinner</li>
       </ul>
     </div>
-    <div class="widget" data-id="weather">
-      <h2>Weather</h2>
-      <p>Adelaide: 23°C, Sunny</p>
+    <div class="widget" data-id="weather" draggable="true">
+      <h2>🌤️ Weather</h2>
+      <p><strong>Adelaide:</strong> 23°C, Sunny<br>
+      <small>Perfect weather for a hackathon! ☀️</small></p>
     </div>
-    <div class="widget" data-id="quicklinks">
-      <h2>Quick Links</h2>
+    <div class="widget" data-id="quicklinks" draggable="true">
+      <h2>🔗 Quick Links</h2>
       <ul>
-        <li><a href="#" class="open-overlay" data-target="wifi">WiFi Info</a></li>
-        <li><a href="#" class="open-overlay" data-target="map">Venue Map</a></li>
-        <li><a href="#" class="open-overlay" data-target="conduct">Code of Conduct</a></li>
+        <li><a href="#" class="open-overlay" data-target="wifi">📶 WiFi Info</a></li>
+        <li><a href="#" class="open-overlay" data-target="map">🗺️ Venue Map</a></li>
+        <li><a href="#" class="open-overlay" data-target="conduct">📋 Code of Conduct</a></li>
       </ul>
     </div>
-    <div class="widget" data-id="notes">
-      <h2>Notes</h2>
-      <textarea placeholder="Write your notes here..."></textarea>
+    <div class="widget" data-id="notes" draggable="true">
+      <h2>📝 Notes</h2>
+      <textarea placeholder="Write your notes here... 
+• Ideas for your project
+• People you've met  
+• Things to remember"></textarea>
     </div>
   </div>
 
@@ -42,24 +51,29 @@
   <div id="overlay-wifi" class="overlay">
     <div class="overlay-content">
       <span class="close-overlay">&times;</span>
-      <h3>WiFi Info</h3>
-      <p>Network: DaydreamHack<br>Password: hacktheday2025</p>
+      <h3>📶 WiFi Information</h3>
+      <p><strong>Network:</strong> DaydreamHack<br>
+      <strong>Password:</strong> hacktheday2025</p>
+      <p><small>Having trouble connecting? Ask a team member for assistance!</small></p>
     </div>
   </div>
 
   <div id="overlay-map" class="overlay">
     <div class="overlay-content">
       <span class="close-overlay">&times;</span>
-      <h3>Venue Map</h3>
-      <p>Find the full map near the registration desk or <a href="#">download it here</a>.</p>
+      <h3>🗺️ Venue Map</h3>
+      <p>Find the full venue map near the registration desk or <a href="#" style="color: #667eea; font-weight: 500;">download it here</a>.</p>
+      <p><small>Key locations: Registration (entrance), Main Hall (presentations), Workshop Rooms (A-D), Food Court (level 2)</small></p>
     </div>
   </div>
 
   <div id="overlay-conduct" class="overlay">
     <div class="overlay-content">
       <span class="close-overlay">&times;</span>
-      <h3>Code of Conduct</h3>
-      <p>Be kind. Be respectful. Harassment of any kind is not tolerated. See staff for support.</p>
+      <h3>📋 Code of Conduct</h3>
+      <p><strong>Be kind. Be respectful.</strong> Harassment of any kind is not tolerated.</p>
+      <p>We're committed to providing a welcoming environment for everyone, regardless of background or experience level.</p>
+      <p><small>Need support? Contact any staff member wearing a Daydream Adelaide t-shirt.</small></p>
     </div>
   </div>
 
