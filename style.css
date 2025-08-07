@@ -1,44 +1,141 @@
 body {
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
   margin: 0;
   padding: 20px;
-  background: #f0f4ff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  background-attachment: fixed;
 }
 
 h1 {
   text-align: center;
-  color: #444;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  letter-spacing: -0.5px;
 }
 
 #dashboard {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .widget {
-  background: white;
-  border-radius: 12px;
-  padding: 15px;
-  width: 300px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
   cursor: move;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.widget::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.widget:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
 }
 
 .widget h2 {
   margin-top: 0;
-  font-size: 18px;
-  color: #333;
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #2d3748;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.widget h2::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.widget p {
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.widget ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.widget li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.widget li:last-child {
+  border-bottom: none;
+}
+
+.widget li::before {
+  content: '•';
+  color: #667eea;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.widget a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.widget a:hover {
+  color: #764ba2;
+  text-decoration: underline;
 }
 
 .widget textarea {
   width: 100%;
-  height: 80px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  height: 100px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid rgba(102, 126, 234, 0.1);
   resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: border-color 0.2s ease;
+  background: rgba(255, 255, 255, 0.8);
+  box-sizing: border-box;
+}
+
+.widget textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
 }
 
 /* Overlay styles */
@@ -47,32 +144,139 @@ h1 {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
 .overlay-content {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 32px;
+  border-radius: 20px;
   width: 90%;
-  max-width: 400px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  max-width: 450px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   position: relative;
-  animation: pop 0.2s ease-out;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-@keyframes pop {
-  from { transform: scale(0.95); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+.overlay-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #2d3748;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.overlay-content p {
+  color: #4a5568;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+@keyframes slideUp {
+  from { 
+    transform: translateY(60px) scale(0.95); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0) scale(1); 
+    opacity: 1; 
+  }
 }
 
 .close-overlay {
   position: absolute;
-  top: 10px; right: 15px;
-  font-size: 22px;
+  top: 16px; 
+  right: 20px;
+  font-size: 28px;
   cursor: pointer;
-  color: #888;
+  color: #718096;
+  transition: color 0.2s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.close-overlay:hover {
+  color: #e53e3e;
+  background: rgba(229, 62, 62, 0.1);
+}
+
+/* Widget-specific styling */
+.widget[data-id="announcements"]::before {
+  background: linear-gradient(90deg, #48bb78, #38a169);
+}
+
+.widget[data-id="schedule"]::before {
+  background: linear-gradient(90deg, #ed8936, #dd6b20);
+}
+
+.widget[data-id="weather"]::before {
+  background: linear-gradient(90deg, #4299e1, #3182ce);
+}
+
+.widget[data-id="quicklinks"]::before {
+  background: linear-gradient(90deg, #9f7aea, #805ad5);
+}
+
+.widget[data-id="notes"]::before {
+  background: linear-gradient(90deg, #38b2ac, #319795);
+}
+
+/* Loading animation for better UX */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.widget {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.widget:nth-child(1) { animation-delay: 0.1s; }
+.widget:nth-child(2) { animation-delay: 0.2s; }
+.widget:nth-child(3) { animation-delay: 0.3s; }
+.widget:nth-child(4) { animation-delay: 0.4s; }
+.widget:nth-child(5) { animation-delay: 0.5s; }
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    padding: 16px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  #dashboard {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0;
+  }
+  
+  .widget {
+    padding: 20px;
+  }
+  
+  .overlay-content {
+    padding: 24px;
+    margin: 20px;
+  }
 }
