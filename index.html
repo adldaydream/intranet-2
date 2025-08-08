@@ -73,16 +73,69 @@
       <h2>Announcements</h2>
       <p>Welcome to Daydream Adelaide! Stay tuned for updates and exciting news throughout the event.</p>
     </div>
-    <div class="widget" data-id="schedule" draggable="true">
-      <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>Schedule</h2>
-      <ul>
-        <li>10:00 AM - Opening Ceremony</li>
-        <li>11:00 AM - Workshops</li>
-        <li>4:00 PM - Demos</li>
-        <li>6:00 PM - Networking & Dinner</li>
-      </ul>
-    </div>
+<div class="widget" data-id="schedule" draggable="true">
+  <button class="remove-widget" aria-label="Remove widget">&times;</button>
+  <h2>Schedule</h2>
+  <ul id="schedule-list"></ul>
+</div>
+<script>
+async function loadSchedule() {
+  try {
+    const response = await fetch('schedule.json');
+    if (!response.ok) throw new Error('Could not fetch schedule.json');
+
+    const scheduleItems = await response.json();
+    const list = document.getElementById('schedule-list');
+    list.innerHTML = '';
+
+    const now = new Date();
+
+    const eventsWithDates = scheduleItems.map(item => ({
+      ...item,
+      date: parseTimeToDate(item.time)
+    }));
+
+    let upcomingEvents = eventsWithDates.filter(item => item.date >= now);
+
+    if (upcomingEvents.length === 0) {
+      upcomingEvents = eventsWithDates.slice(0, 4);
+    } else {
+      upcomingEvents = upcomingEvents.slice(0, 4);
+    }
+
+    upcomingEvents.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `${item.time} - ${item.event}`;
+      list.appendChild(li);
+    });
+  } catch (error) {
+    console.error(error);
+    const list = document.getElementById('schedule-list');
+    list.innerHTML = '<li>Failed to load schedule.</li>';
+  }
+}
+
+function parseTimeToDate(timeStr) {
+  const [time, modifier] = timeStr.split(' ');
+  let [hours, minutes] = time.split(':').map(Number);
+
+  if (modifier === 'PM' && hours !== 12) {
+    hours += 12;
+  } else if (modifier === 'AM' && hours === 12) {
+    hours = 0;
+  }
+
+  const date = new Date();
+  date.setHours(hours, minutes, 0, 0);
+  return date;
+}
+
+// Run on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  loadSchedule();
+});
+</script>
+
     <div class="widget" data-id="weather" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
       <h2>Weather</h2>

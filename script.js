@@ -697,8 +697,64 @@ function resetToDefaultLayout() {
   
   fetchWeather(); // Reload weather
   setupExistingWidgets(); // Setup the default widgets
+  window.loadSchedule(); // Reload schedule
 }
 
 function generateUniqueId() {
   return 'widget-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
 }
+
+function parseTimeToDate(timeStr) {
+  // Parse times like "10:00 AM" or "4:00 PM" into Date objects for today
+  const now = new Date();
+  const [time, meridiem] = timeStr.split(' ');
+  let [hours, minutes] = time.split(':').map(Number);
+
+  if (meridiem.toUpperCase() === 'PM' && hours !== 12) hours += 12;
+  if (meridiem.toUpperCase() === 'AM' && hours === 12) hours = 0;
+
+  const eventDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+  return eventDate;
+}
+
+async function loadSchedule() {
+  try {
+    const response = await fetch('schedule.json');
+    if (!response.ok) throw new Error('Could not fetch schedule.json');
+
+    const scheduleItems = await response.json();
+    const list = document.getElementById('schedule-list');
+    list.innerHTML = '';
+
+    const now = new Date();
+
+    // Map each event to an object with its Date for today
+    const eventsWithDates = scheduleItems.map(item => ({
+      ...item,
+      date: parseTimeToDate(item.time)
+    }));
+
+    // Filter future events
+    let upcomingEvents = eventsWithDates.filter(item => item.date >= now);
+
+    if (upcomingEvents.length === 0) {
+      // No events left today, so just show the first 4 events anyway (e.g. for tomorrow)
+      upcomingEvents = eventsWithDates.slice(0, 4);
+    } else {
+      // Otherwise, take up to 4 upcoming
+      upcomingEvents = upcomingEvents.slice(0, 4);
+    }
+
+    upcomingEvents.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `${item.time} - ${item.event}`;
+      list.appendChild(li);
+    });
+
+  } catch (error) {
+    console.error(error);
+    const list = document.getElementById('schedule-list');
+    list.innerHTML = '<li>Failed to load schedule.</li>';
+  }
+}
+window.loadSchedule = loadSchedule; // Expose for global access

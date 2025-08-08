@@ -1,0 +1,8 @@
+[
+  { "time": "10:00 AM", "event": "Opening Ceremony" },
+  { "time": "11:00 AM", "event": "Workshops" },
+  { "time": "1:00 PM", "event": "Lunch Break" },
+  { "time": "3:00 PM", "event": "Keynote Speaker" },
+  { "time": "4:00 PM", "event": "Demos" },
+  { "time": "6:00 PM", "event": "Networking & Dinner" }
+]
