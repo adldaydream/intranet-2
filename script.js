@@ -125,7 +125,7 @@ async function fetchWeather() {
     const weatherEmoji = getWeatherEmoji(current.weatherCode);
     
     weatherContent.innerHTML = `
-      <p><strong>Adelaide:</strong> ${temp}°C, ${description} ${weatherEmoji}<br>
+      <p><strong>Adelaide:</strong> ${temp}°C, ${description}<br>
       <small>High: ${maxTemp}°C, Low: ${minTemp}°C</small><br>
       <small>Humidity: ${humidity}% • Wind: ${windSpeed} km/h</small></p>
     `;
@@ -134,7 +134,7 @@ async function fetchWeather() {
     console.error('Failed to fetch weather:', error);
     // Fallback to static content
     weatherContent.innerHTML = `
-      <p><strong>Adelaide:</strong> 23°C, Sunny ☀️<br>
+      <p><strong>Adelaide:</strong> 23°C, Sunny<br>
       <small>Weather data temporarily unavailable</small></p>
     `;
   }
@@ -142,18 +142,18 @@ async function fetchWeather() {
 
 function getWeatherEmoji(weatherCode) {
   const code = parseInt(weatherCode);
-  if (code === 113) return '☀️'; // Sunny
-  if (code === 116) return '⛅'; // Partly cloudy
-  if (code === 119 || code === 122) return '☁️'; // Cloudy
-  if (code === 143 || code === 248) return '🌫️'; // Mist/fog
-  if (code >= 176 && code <= 200) return '🌧️'; // Rain
-  if (code >= 227 && code <= 264) return '🌨️'; // Snow
-  if (code >= 266 && code <= 284) return '🌦️'; // Light rain
-  if (code >= 293 && code <= 299) return '🌧️'; // Rain
-  if (code >= 302 && code <= 359) return '🌧️'; // Heavy rain
-  if (code >= 362 && code <= 392) return '🌨️'; // Snow
-  if (code >= 395 && code <= 399) return '❄️'; // Heavy snow
-  return '🌤️'; // Default
+  if (code === 113) return ''; // Sunny
+  if (code === 116) return ''; // Partly cloudy
+  if (code === 119 || code === 122) return ''; // Cloudy
+  if (code === 143 || code === 248) return ''; // Mist/fog
+  if (code >= 176 && code <= 200) return ''; // Rain
+  if (code >= 227 && code <= 264) return ''; // Snow
+  if (code >= 266 && code <= 284) return ''; // Light rain
+  if (code >= 293 && code <= 299) return ''; // Rain
+  if (code >= 302 && code <= 359) return ''; // Heavy rain
+  if (code >= 362 && code <= 392) return ''; // Snow
+  if (code >= 395 && code <= 399) return ''; // Heavy snow
+  return ''; // Default
 }
 
 // Fetch weather when page loads
@@ -243,7 +243,7 @@ function addNewWidget(type, existingId = null) {
       widgetHTML = `
         <div class="widget" data-id="${widgetId}" draggable="true">
           <button class="remove-widget" aria-label="Remove widget">&times;</button>
-          <h2>📝 My Notes</h2>
+          <h2>My Notes</h2>
           <textarea placeholder="Your custom notes here..."></textarea>
         </div>
       `;
@@ -253,7 +253,7 @@ function addNewWidget(type, existingId = null) {
       widgetHTML = `
         <div class="widget" data-id="${widgetId}" draggable="true">
           <button class="remove-widget" aria-label="Remove widget">&times;</button>
-          <h2>🔗 My Links</h2>
+          <h2>My Links</h2>
           <ul>
             <li><a href="https://github.com" target="_blank">GitHub</a></li>
             <li><a href="https://stackoverflow.com" target="_blank">Stack Overflow</a></li>
@@ -267,15 +267,15 @@ function addNewWidget(type, existingId = null) {
       widgetHTML = `
         <div class="widget" data-id="${widgetId}" draggable="true">
           <button class="remove-widget" aria-label="Remove widget">&times;</button>
-          <h2>✅ Tasks</h2>
+          <h2>Tasks</h2>
           <div class="todo-container">
             <div class="todo-input-section">
               <input type="text" placeholder="What needs to be done?" class="todo-input">
               <div class="todo-options">
                 <select class="todo-priority">
-                  <option value="low">🟢 Low</option>
-                  <option value="medium" selected>🟡 Medium</option>
-                  <option value="high">🔴 High</option>
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
                 </select>
                 <button class="add-todo-btn">Add</button>
               </div>
@@ -299,7 +299,7 @@ function addNewWidget(type, existingId = null) {
       widgetHTML = `
         <div class="widget" data-id="${widgetId}" draggable="true">
           <button class="remove-widget" aria-label="Remove widget">&times;</button>
-          <h2>⏱️ Timer</h2>
+          <h2>Timer</h2>
           <div class="timer-container">
             <div class="timer-display">25:00</div>
             <div class="timer-controls">
@@ -506,9 +506,9 @@ function setupTodoWidget(widget) {
   
   function getPriorityBadge(priority) {
     const badges = {
-      high: '<span class="priority-badge high">🔴</span>',
-      medium: '<span class="priority-badge medium">🟡</span>',
-      low: '<span class="priority-badge low">🟢</span>'
+      high: '<span class="priority-badge high">High</span>',
+      medium: '<span class="priority-badge medium">Med</span>',
+      low: '<span class="priority-badge low">Low</span>'
     };
     return badges[priority] || '';
   }
@@ -656,12 +656,12 @@ function resetToDefaultLayout() {
   dashboard.innerHTML = `
     <div class="widget" data-id="announcements" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>📢 Announcements</h2>
+      <h2>Announcements</h2>
       <p>Welcome to Daydream Adelaide! Stay tuned for updates and exciting news throughout the event.</p>
     </div>
     <div class="widget" data-id="schedule" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>🗓️ Schedule</h2>
+      <h2>Schedule</h2>
       <ul>
         <li>10:00 AM - Opening Ceremony</li>
         <li>11:00 AM - Workshops</li>
@@ -671,23 +671,23 @@ function resetToDefaultLayout() {
     </div>
     <div class="widget" data-id="weather" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>🌤️ Weather</h2>
+      <h2>Weather</h2>
       <div id="weather-content">
         <p>Loading Adelaide weather...</p>
       </div>
     </div>
     <div class="widget" data-id="quicklinks" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>🔗 Quick Links</h2>
+      <h2>Quick Links</h2>
       <ul>
-        <li><a href="#" class="open-overlay" data-target="wifi">📶 WiFi Info</a></li>
-        <li><a href="#" class="open-overlay" data-target="map">🗺️ Venue Map</a></li>
-        <li><a href="#" class="open-overlay" data-target="conduct">📋 Code of Conduct</a></li>
+        <li><a href="#" class="open-overlay" data-target="wifi">WiFi Info</a></li>
+        <li><a href="#" class="open-overlay" data-target="map">Venue Map</a></li>
+        <li><a href="#" class="open-overlay" data-target="conduct">Code of Conduct</a></li>
       </ul>
     </div>
     <div class="widget" data-id="notes" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>📝 Notes</h2>
+      <h2>Notes</h2>
       <textarea placeholder="Write your notes here... 
 • Ideas for your project
 • People you've met  

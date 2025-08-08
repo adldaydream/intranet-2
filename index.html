@@ -16,16 +16,16 @@
   <div id="toolbar">
     <div class="toolbar-section">
       <button id="add-widget-btn" class="toolbar-btn">
-        <span class="btn-icon">➕</span>
+        <span class="btn-icon">+</span>
         Add Widget
       </button>
       <button id="reset-layout-btn" class="toolbar-btn">
-        <span class="btn-icon">🔄</span>
+        <span class="btn-icon">↻</span>
         Reset Layout
       </button>
     </div>
     <div class="toolbar-section">
-      <span class="toolbar-hint">💡 Drag widgets to rearrange • Click × to remove</span>
+      <span class="toolbar-hint">Drag widgets to rearrange • Click × to remove</span>
     </div>
   </div>
 
@@ -33,31 +33,31 @@
   <div id="add-widget-modal" class="overlay">
     <div class="overlay-content">
       <span class="close-overlay">&times;</span>
-      <h3>➕ Add New Widget</h3>
+      <h3>Add New Widget</h3>
       <div class="widget-options">
         <button class="widget-option" data-type="custom-note">
-          <div class="option-icon">📝</div>
+          <div class="option-icon">N</div>
           <div class="option-text">
             <strong>Custom Note</strong>
             <small>Create a personal note widget</small>
           </div>
         </button>
         <button class="widget-option" data-type="links">
-          <div class="option-icon">🔗</div>
+          <div class="option-icon">L</div>
           <div class="option-text">
             <strong>Quick Links</strong>
             <small>Add useful links</small>
           </div>
         </button>
         <button class="widget-option" data-type="todo">
-          <div class="option-icon">✅</div>
+          <div class="option-icon">T</div>
           <div class="option-text">
-            <strong>Todo List</strong>
+            <strong>Tasks</strong>
             <small>Track your tasks</small>
           </div>
         </button>
         <button class="widget-option" data-type="timer">
-          <div class="option-icon">⏱️</div>
+          <div class="option-icon">T</div>
           <div class="option-text">
             <strong>Timer</strong>
             <small>Pomodoro or countdown timer</small>
@@ -70,12 +70,12 @@
   <div id="dashboard">
     <div class="widget" data-id="announcements" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>📢 Announcements</h2>
+      <h2>Announcements</h2>
       <p>Welcome to Daydream Adelaide! Stay tuned for updates and exciting news throughout the event.</p>
     </div>
     <div class="widget" data-id="schedule" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>🗓️ Schedule</h2>
+      <h2>Schedule</h2>
       <ul>
         <li>10:00 AM - Opening Ceremony</li>
         <li>11:00 AM - Workshops</li>
@@ -85,23 +85,23 @@
     </div>
     <div class="widget" data-id="weather" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>🌤️ Weather</h2>
+      <h2>Weather</h2>
       <div id="weather-content">
         <p>Loading Adelaide weather...</p>
       </div>
     </div>
     <div class="widget" data-id="quicklinks" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>🔗 Quick Links</h2>
+      <h2>Quick Links</h2>
       <ul>
-        <li><a href="#" class="open-overlay" data-target="wifi">📶 WiFi Info</a></li>
-        <li><a href="#" class="open-overlay" data-target="map">🗺️ Venue Map</a></li>
-        <li><a href="#" class="open-overlay" data-target="conduct">📋 Code of Conduct</a></li>
+        <li><a href="#" class="open-overlay" data-target="wifi">WiFi Info</a></li>
+        <li><a href="#" class="open-overlay" data-target="map">Venue Map</a></li>
+        <li><a href="#" class="open-overlay" data-target="conduct">Code of Conduct</a></li>
       </ul>
     </div>
     <div class="widget" data-id="notes" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>📝 Notes</h2>
+      <h2>Notes</h2>
       <textarea placeholder="Write your notes here... 
 • Ideas for your project
 • People you've met  
@@ -113,7 +113,7 @@
   <div id="overlay-wifi" class="overlay">
     <div class="overlay-content">
       <span class="close-overlay">&times;</span>
-      <h3>📶 WiFi Information</h3>
+      <h3>WiFi Information</h3>
       <p><strong>Network:</strong> DaydreamHack<br>
       <strong>Password:</strong> hacktheday2025</p>
       <p><small>Having trouble connecting? Ask a team member for assistance!</small></p>
@@ -123,7 +123,7 @@
   <div id="overlay-map" class="overlay">
     <div class="overlay-content">
       <span class="close-overlay">&times;</span>
-      <h3>🗺️ Venue Map</h3>
+      <h3>Venue Map</h3>
       <p>Find the full venue map near the registration desk or <a href="#" style="color: #667eea; font-weight: 500;">download it here</a>.</p>
       <p><small>Key locations: Registration (entrance), Main Hall (presentations), Workshop Rooms (A-D), Food Court (level 2)</small></p>
     </div>
@@ -132,7 +132,7 @@
   <div id="overlay-conduct" class="overlay">
     <div class="overlay-content">
       <span class="close-overlay">&times;</span>
-      <h3>📋 Code of Conduct</h3>
+      <h3>Code of Conduct</h3>
       <p><strong>Be kind. Be respectful.</strong> Harassment of any kind is not tolerated.</p>
       <p>We're committed to providing a welcoming environment for everyone, regardless of background or experience level.</p>
       <p><small>Need support? Contact any staff member wearing a Daydream Adelaide t-shirt.</small></p>
