@@ -143,15 +143,45 @@ document.addEventListener('DOMContentLoaded', () => {
         <p>Loading Adelaide weather...</p>
       </div>
     </div>
-    <div class="widget" data-id="quicklinks" draggable="true">
-      <button class="remove-widget" aria-label="Remove widget">&times;</button>
-      <h2>Quick Links</h2>
-      <ul>
-        <li><a href="#" class="open-overlay" data-target="wifi">WiFi Info</a></li>
+  <div class="widget" data-id="quicklinks" draggable="true">
+    <button class="remove-widget" aria-label="Remove widget">&times;</button>
+    <h2>Quick Links</h2>
+    <ul>
+      <li><a href="#" class="open-overlay" data-target="wifi">WiFi Info</a></li>
         <li><a href="#" class="open-overlay" data-target="map">Venue Map</a></li>
         <li><a href="#" class="open-overlay" data-target="conduct">Code of Conduct</a></li>
       </ul>
     </div>
+    <div class="widget">
+    <div class="apps-grid">
+      <button class="remove-widget" aria-label="Remove widget">&times;</button>
+      <a href="apps/photos/index.html" class="app-icon" draggable="true" data-id="app-photos">
+        <img src="icons/photos.png" alt="Photos">
+        <span>Photos</span>
+      </a>
+      <a href="apps/calendar/index.html" class="app-icon" draggable="true" data-id="app-calendar">
+        <img src="icons/calendar.png" alt="Calendar">
+        <span>Calendar</span>
+      </a>
+      <a href="apps/faq/index.html" class="app-icon" draggable="true" data-id="app-chat">
+        <img src="icons/faq.png" alt="FAQ">
+        <span>FAQ</span>
+      </a>
+      <a href="apps/music/index.html" class="app-icon" draggable="true" data-id="app-tbd">
+        <img src="icons/music.png" alt="TBD">
+        <span>TBD</span>
+      </a>
+      <a href="apps/mail/index.html" class="app-icon" draggable="true" data-id="app-tbd">
+        <img src="icons/mail.png" alt="TBD">
+        <span>Mail</span>
+      </a>
+      <a href="apps/settings/index.html" class="app-icon" draggable="true" data-id="app-tbd">
+        <img src="icons/settings.png" alt="TBD">
+        <span>Settings</span>
+      </a>
+    </div>
+    </div>
+
     <div class="widget" data-id="notes" draggable="true">
       <button class="remove-widget" aria-label="Remove widget">&times;</button>
       <h2>Notes</h2>
@@ -160,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
 • People you've met  
 • Things to remember"></textarea>
     </div>
-  </div>
+    </div>
 
   <!-- Overlays -->
   <div id="overlay-wifi" class="overlay">
