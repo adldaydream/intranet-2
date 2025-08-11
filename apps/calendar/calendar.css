@@ -1,0 +1,101 @@
+body {
+  font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  letter-spacing: -0.5px;
+}
+
+.widget {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 32px 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.widget h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3748;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.widget h2::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+#schedule {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.event {
+  display: flex;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  color: #4a5568;
+  gap: 16px;
+}
+
+.event:last-child {
+  border-bottom: none;
+}
+
+.time {
+  font-weight: 600;
+  color: #667eea;
+  width: 90px;
+  flex-shrink: 0;
+}
+
+.details {
+  flex: 1;
+  font-size: 1rem;
+}
+
+.event:nth-child(even) {
+  background: rgba(102, 126, 234, 0.07);
+  border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+  .widget {
+    padding: 18px 8px;
+  }
+  h1 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .widget h2 {
+    font-size: 1.1rem;
+  }
+}

@@ -1,3 +1,4 @@
+// ...existing code from script.js...
 async function loadPhotos() {
   try {
     const res = await fetch('uploads/photos.json');

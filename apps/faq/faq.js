@@ -1,3 +1,5 @@
+// ...existing code from script.js...
+
 const faqQuestions = document.querySelectorAll('.faq-question');
 
 faqQuestions.forEach(button => {

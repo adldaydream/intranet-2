@@ -1,3 +1,4 @@
+// ...existing code from script.js...
 async function loadSchedule() {
   try {
     const response = await fetch('/schedule.json'); // Root file
