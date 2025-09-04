@@ -10,11 +10,53 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Daydream Adelaide – Photo Gallery</h1>
-  <div class="widget" style="max-width:900px;margin:32px auto;">
-    <h2>Event Photos</h2>
-    <div id="gallery"></div>
+  <!-- Load Keycloak adapter -->
+  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.0/dist/keycloak.min.js"></script>
+
+  <!-- Hidden until authenticated -->
+  <div id="content" style="display:none;">
+    <h1>Daydream Adelaide – Photo Gallery</h1>
+    <p>Welcome, <span id="username"></span>!</p>
+    <button id="logout">Logout</button>
+
+    <div class="widget" style="max-width:900px;margin:32px auto;">
+      <h2>Event Photos</h2>
+      <div id="gallery"></div>
+    </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.0/dist/keycloak.min.js"></script>
+
+<div id="loading">Loading...</div>
+<div id="content" style="display:none;">
+  <h1>Welcome, <span id="username"></span></h1>
+</div>
+
+<script>
+  const keycloak = new Keycloak({
+    url: "https://lemur-6.cloud-iam.com/auth",
+    realm: "daydreamadl",
+    clientId: "intranet",
+  });
+
+  keycloak.init({
+    onLoad: 'check-sso',
+    promiseType: 'native',
+    redirectUri: window.location.href
+  }).then(authenticated => {
+    console.log("Authenticated:", authenticated);
+    document.getElementById("loading").style.display = "none";
+    if (authenticated) {
+      document.getElementById("content").style.display = "block";
+      document.getElementById("username").textContent =
+        keycloak.tokenParsed?.preferred_username || "User";
+    } else {
+      console.log("Not logged in, redirecting...");
+      keycloak.login();
+    }
+  }).catch(err => console.error("Keycloak init failed:", err));
+</script>
+
   <script src="photos.js"></script>
 </body>
 </html>
