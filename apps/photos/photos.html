@@ -7,14 +7,15 @@
   <link rel="stylesheet" href="photos.css">
 </head>
 <body>
-  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.0/dist/keycloak.min.js"></script>
-
-  <div id="loading" style="text-align:center; margin-top:50px;">Initializing Keycloak…</div>
+  <div id="login-screen" style="text-align:center; margin-top:50px;">
+    <h1>Daydream Adelaide – Photo Gallery</h1>
+    <p>This page is restricted. Please log in to view the photos.</p>
+    <button id="login-btn">Login with Keycloak</button>
+  </div>
 
   <div id="content" style="display:none; max-width:900px; margin:32px auto;">
     <h1>Daydream Adelaide – Photo Gallery</h1>
-    <p>Welcome, <span id="username"></span>!</p>
-    <button id="logout">Logout</button>
+    <p>Welcome, guest!</p>
     <div class="widget">
       <h2>Event Photos</h2>
       <div id="gallery"></div>
@@ -22,37 +23,28 @@
   </div>
 
   <script>
-    // Configure Keycloak
-    const keycloak = new Keycloak({
-      url: "https://lemur-6.cloud-iam.com/auth",
-      realm: "daydreamadl",
-      clientId: "intranet",
+    const loginBtn = document.getElementById("login-btn");
+    const loginScreen = document.getElementById("login-screen");
+    const content = document.getElementById("content");
+
+    loginBtn.addEventListener("click", () => {
+      // Redirect to Keycloak login page (soft login)
+      const keycloakLoginUrl = "https://lemur-6.cloud-iam.com/auth/realms/daydreamadl/protocol/openid-connect/auth" +
+        "?client_id=intranet" +
+        "&redirect_uri=" + encodeURIComponent(window.location.href) +
+        "&response_type=code" +
+        "&scope=openid";
+
+      window.location.href = keycloakLoginUrl;
     });
 
-    // Initialize Keycloak
-    keycloak.init({
-      onLoad: 'login-required',
-      promiseType: 'native',
-      redirectUri: window.location.href
-    }).then(authenticated => {
-      document.getElementById("loading").style.display = "none";
-      if (authenticated) {
-        document.getElementById("content").style.display = "block";
-        document.getElementById("username").textContent =
-          keycloak.tokenParsed?.preferred_username || "User";
-
-        // Logout button
-        document.getElementById("logout").addEventListener("click", () => {
-          keycloak.logout({ redirectUri: window.location.origin });
-        });
-      } else {
-        console.log("Not authenticated — redirecting to login");
-        keycloak.login();
-      }
-    }).catch(err => {
-      document.getElementById("loading").textContent = "Keycloak init failed. Check console.";
-      console.error("Keycloak init failed:", err);
-    });
+    // Optional: check if redirected back from Keycloak with code
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('code')) {
+      // Soft unlock the page after redirect
+      loginScreen.style.display = "none";
+      content.style.display = "block";
+    }
   </script>
 
   <script src="photos.js"></script>
