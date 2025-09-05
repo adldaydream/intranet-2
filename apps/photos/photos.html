@@ -24,37 +24,42 @@
   <script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.1/dist/keycloak.min.js"></script>
   <script src="photos.js"></script> <!-- Your existing photo loader -->
 
-  <script>
-    const keycloak = new Keycloak({
-      url: 'https://lemur-6.cloud-iam.com/auth', // Cloud IAM Keycloak URL
-      realm: 'daydreamadl',
-      clientId: 'intranet'
-    });
+<script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.1/dist/keycloak.min.js"></script>
+<script>
+const keycloak = new Keycloak({
+  url: 'https://lemur-6.cloud-iam.com/auth',
+  realm: 'daydreamadl',
+  clientId: 'intranet'
+});
 
-    keycloak.init({ onLoad: 'login-required' }).then(authenticated => {
-      if (authenticated) {
-        // Show the protected content
-        document.getElementById('content').style.display = 'block';
+// Check if user is already logged in (no forced redirect)
+keycloak.init({ onLoad: 'check-sso', silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html' })
+  .then(authenticated => {
+    if (authenticated) {
+      // Show protected content
+      document.getElementById('content').style.display = 'block';
+      document.getElementById('username').textContent = keycloak.tokenParsed.preferred_username;
 
-        // Display username
-        document.getElementById('username').textContent = keycloak.tokenParsed.preferred_username;
+      // Logout button
+      document.getElementById('logout').addEventListener('click', () => {
+        keycloak.logout({ redirectUri: window.location.href });
+      });
 
-        // Logout button
-        document.getElementById('logout').addEventListener('click', () => {
-          keycloak.logout({ redirectUri: window.location.href });
-        });
-
-        // Call your existing photo script function to load the gallery
-        if (typeof loadPhotos === 'function') {
-          loadPhotos(); // assume photos.js defines a loadPhotos() function
-        }
-
-      } else {
-        keycloak.login();
+      // Call your existing photos.js function to load gallery
+      if (typeof loadPhotos === 'function') {
+        loadPhotos();
       }
-    }).catch(err => {
-      console.error('Keycloak init failed', err);
-    });
-  </script>
+
+    } else {
+      // Optional: show a login button instead of redirect
+      const loginBtn = document.createElement('button');
+      loginBtn.textContent = 'Login to see gallery';
+      loginBtn.onclick = () => keycloak.login();
+      document.body.appendChild(loginBtn);
+    }
+  })
+  .catch(err => console.error('Keycloak init failed', err));
+</script>
+
 </body>
 </html>
