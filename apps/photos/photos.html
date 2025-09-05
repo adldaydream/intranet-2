@@ -4,16 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daydream Adelaide – Photo Gallery</title>
-  <link rel="stylesheet" href="photos.css">
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center; }
-    #content { max-width: 900px; margin: 32px auto; display: none; }
-    .widget { margin-top: 32px; }
-    #logout { margin-bottom: 20px; padding: 6px 12px; cursor: pointer; }
+    #content { display: none; }
   </style>
 </head>
 <body>
-  <div id="loading" style="margin-top:50px;">Initializing Keycloak…</div>
 
   <div id="content">
     <h1>Daydream Adelaide – Photo Gallery</h1>
@@ -26,39 +21,40 @@
     </div>
   </div>
 
-  <!-- Keycloak JS -->
-  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.0/dist/keycloak.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.1/dist/keycloak.min.js"></script>
+  <script src="photos.js"></script> <!-- Your existing photo loader -->
+
   <script>
     const keycloak = new Keycloak({
-      url: "https://lemur-6.cloud-iam.com/auth",
-      realm: "daydreamadl",
-      clientId: "intranet",
+      url: 'https://lemur-6.cloud-iam.com/auth', // Cloud IAM Keycloak URL
+      realm: 'daydreamadl',
+      clientId: 'intranet'
     });
 
-    keycloak.init({
-      onLoad: 'login-required',
-      promiseType: 'native',
-      redirectUri: window.location.href
-    }).then(authenticated => {
-      document.getElementById("loading").style.display = "none";
+    keycloak.init({ onLoad: 'login-required' }).then(authenticated => {
       if (authenticated) {
-        document.getElementById("content").style.display = "block";
-        document.getElementById("username").textContent =
-          keycloak.tokenParsed?.preferred_username || "User";
+        // Show the protected content
+        document.getElementById('content').style.display = 'block';
 
-        document.getElementById("logout").addEventListener("click", () => {
-          keycloak.logout({ redirectUri: window.location.origin });
+        // Display username
+        document.getElementById('username').textContent = keycloak.tokenParsed.preferred_username;
+
+        // Logout button
+        document.getElementById('logout').addEventListener('click', () => {
+          keycloak.logout({ redirectUri: window.location.href });
         });
+
+        // Call your existing photo script function to load the gallery
+        if (typeof loadPhotos === 'function') {
+          loadPhotos(); // assume photos.js defines a loadPhotos() function
+        }
+
       } else {
-        console.log("Not authenticated, redirecting to login...");
         keycloak.login();
       }
     }).catch(err => {
-      document.getElementById("loading").textContent = "Keycloak init failed. Check console.";
-      console.error("Keycloak init failed:", err);
+      console.error('Keycloak init failed', err);
     });
   </script>
-
-  <script src="photos.js"></script>
 </body>
 </html>
