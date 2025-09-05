@@ -6,10 +6,14 @@
   <title>Daydream Adelaide – Photo Gallery</title>
   <style>
     #content { display: none; }
+    #gallery { display: flex; gap: 10px; flex-wrap: wrap; }
+    #gallery img { width: 150px; height: auto; border-radius: 5px; }
+    #login-btn { margin: 20px; padding: 10px 20px; font-size: 16px; }
   </style>
 </head>
 <body>
 
+  <!-- Protected content -->
   <div id="content">
     <h1>Daydream Adelaide – Photo Gallery</h1>
     <p>Welcome, <span id="username"></span>!</p>
@@ -21,45 +25,56 @@
     </div>
   </div>
 
+  <!-- Optional login button if not authenticated -->
+  <div id="login-container"></div>
+
+  <!-- Keycloak JS adapter -->
   <script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.1/dist/keycloak.min.js"></script>
-  <script src="photos.js"></script> <!-- Your existing photo loader -->
 
-<script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.1/dist/keycloak.min.js"></script>
-<script>
-const keycloak = new Keycloak({
-  url: 'https://lemur-6.cloud-iam.com/auth',
-  realm: 'daydreamadl',
-  clientId: 'intranet'
-});
+  <!-- Your existing photos.js script -->
+  <script src="photos.js"></script>
 
-// Check if user is already logged in (no forced redirect)
-keycloak.init({ onLoad: 'check-sso', silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html' })
-  .then(authenticated => {
-    if (authenticated) {
-      // Show protected content
-      document.getElementById('content').style.display = 'block';
-      document.getElementById('username').textContent = keycloak.tokenParsed.preferred_username;
+  <script>
+    const keycloak = new Keycloak({
+      url: 'https://lemur-6.cloud-iam.com/auth/', // Replace with your Keycloak URL
+      realm: 'daydreamadl',                       // Replace with your Realm
+      clientId: 'intranet'                 // Replace with your Client ID
+    });
 
-      // Logout button
-      document.getElementById('logout').addEventListener('click', () => {
-        keycloak.logout({ redirectUri: window.location.href });
-      });
+    keycloak.init({
+      onLoad: 'check-sso',                         // Only check login, don’t redirect
+      silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
+    }).then(authenticated => {
 
-      // Call your existing photos.js function to load gallery
-      if (typeof loadPhotos === 'function') {
-        loadPhotos();
+      if (authenticated) {
+        // Show protected content
+        document.getElementById('content').style.display = 'block';
+        if (keycloak.tokenParsed && keycloak.tokenParsed.preferred_username) {
+          document.getElementById('username').textContent = keycloak.tokenParsed.preferred_username;
+        }
+
+        // Logout button
+        document.getElementById('logout').addEventListener('click', () => {
+          keycloak.logout({ redirectUri: window.location.href });
+        });
+
+        // Load photos using your existing script
+        if (typeof loadPhotos === 'function') {
+          loadPhotos();
+        }
+
+      } else {
+        // Not authenticated — show login button
+        const loginBtn = document.createElement('button');
+        loginBtn.id = 'login-btn';
+        loginBtn.textContent = 'Login to view the gallery';
+        loginBtn.onclick = () => keycloak.login();
+        document.getElementById('login-container').appendChild(loginBtn);
       }
 
-    } else {
-      // Optional: show a login button instead of redirect
-      const loginBtn = document.createElement('button');
-      loginBtn.textContent = 'Login to see gallery';
-      loginBtn.onclick = () => keycloak.login();
-      document.body.appendChild(loginBtn);
-    }
-  })
-  .catch(err => console.error('Keycloak init failed', err));
-</script>
-
+    }).catch(err => {
+      console.error('Keycloak init failed:', err);
+    });
+  </script>
 </body>
 </html>
