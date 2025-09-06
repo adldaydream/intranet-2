@@ -1,80 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Daydream Adelaide – Photo Gallery</title>
-  <style>
-    #content { display: none; }
-    #gallery { display: flex; gap: 10px; flex-wrap: wrap; }
-    #gallery img { width: 150px; height: auto; border-radius: 5px; }
-    #login-btn { margin: 20px; padding: 10px 20px; font-size: 16px; }
-  </style>
+  <link rel="stylesheet" href="photos.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js"></script>
 </head>
 <body>
+  <div id="app">
+    <div id="auth-buttons" style="text-align:center;margin:20px;">
+      <button id="login" style="display:none;">Log In</button>
+      <button id="logout" style="display:none;">Log Out</button>
+    </div>
 
-  <!-- Protected content -->
-  <div id="content">
-    <h1>Daydream Adelaide – Photo Gallery</h1>
-    <p>Welcome, <span id="username"></span>!</p>
-    <button id="logout">Logout</button>
-
-    <div class="widget">
-      <h2>Event Photos</h2>
-      <div id="gallery"></div>
+    <div id="content" style="display:none;">
+      <h1>Daydream Adelaide – Photo Gallery</h1>
+      <div class="widget" style="max-width:900px;margin:32px auto;">
+        <h2>Event Photos</h2>
+        <div id="gallery"></div>
+      </div>
     </div>
   </div>
 
-  <!-- Optional login button if not authenticated -->
-  <div id="login-container"></div>
-
-  <!-- Keycloak JS adapter -->
-  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.1/dist/keycloak.min.js"></script>
-
-  <!-- Your existing photos.js script -->
   <script src="photos.js"></script>
-
   <script>
-    const keycloak = new Keycloak({
-      url: 'https://lemur-6.cloud-iam.com/auth/', // Replace with your Keycloak URL
-      realm: 'daydreamadl',                       // Replace with your Realm
-      clientId: 'intranet'                 // Replace with your Client ID
-    });
+    // Replace with your own Auth0 settings
+    const auth0Config = {
+      domain: "dev-qxvhn43m2usqyu2p.au.auth0.com",       // e.g. dev-abc123.us.auth0.com
+      clientId: "qc2goou7XOzIkdZArnOJYlVUCcvCzhdO",  // from your Auth0 app
+      authorizationParams: {
+        redirect_uri: window.location.origin
+      }
+    };
 
-    keycloak.init({
-      onLoad: 'check-sso',                         // Only check login, don’t redirect
-      silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
-    }).then(authenticated => {
+    let auth0Client;
 
-      if (authenticated) {
-        // Show protected content
-        document.getElementById('content').style.display = 'block';
-        if (keycloak.tokenParsed && keycloak.tokenParsed.preferred_username) {
-          document.getElementById('username').textContent = keycloak.tokenParsed.preferred_username;
-        }
+    async function initAuth() {
+      auth0Client = await createAuth0Client(auth0Config);
 
-        // Logout button
-        document.getElementById('logout').addEventListener('click', () => {
-          keycloak.logout({ redirectUri: window.location.href });
-        });
-
-        // Load photos using your existing script
-        if (typeof loadPhotos === 'function') {
-          loadPhotos();
-        }
-
-      } else {
-        // Not authenticated — show login button
-        const loginBtn = document.createElement('button');
-        loginBtn.id = 'login-btn';
-        loginBtn.textContent = 'Login to view the gallery';
-        loginBtn.onclick = () => keycloak.login();
-        document.getElementById('login-container').appendChild(loginBtn);
+      // Handle the redirect from Auth0 login
+      if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
+        await auth0Client.handleRedirectCallback();
+        window.history.replaceState({}, document.title, "/");
       }
 
-    }).catch(err => {
-      console.error('Keycloak init failed:', err);
-    });
+      const isAuthenticated = await auth0Client.isAuthenticated();
+
+      if (isAuthenticated) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("logout").style.display = "inline-block";
+        document.getElementById("content").style.display = "block";
+      } else {
+        document.getElementById("login").style.display = "inline-block";
+        document.getElementById("logout").style.display = "none";
+        document.getElementById("content").style.display = "none";
+      }
+
+      document.getElementById("login").addEventListener("click", () => {
+        auth0Client.loginWithRedirect();
+      });
+
+      document.getElementById("logout").addEventListener("click", () => {
+        auth0Client.logout({ returnTo: window.location.origin });
+      });
+    }
+
+    initAuth();
   </script>
 </body>
 </html>
